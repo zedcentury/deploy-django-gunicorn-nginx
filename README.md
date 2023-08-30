@@ -5,3 +5,5 @@
 * `database.sh` proyekt uchun ma'lumotlar bazasini yaratadi.
 * `project.sh` proyektni githubdan yuklab olib, sozlashlarni amalga oshiradi.
 * `configuration.sh` serverda socket va service fayllarni yozadi, hamda nginx sozlamalarini amalga oshiradi.
+
+Ishni boshlashdan avval `example.json` bo'yicha o'z `data.json` faylingizni yarating.

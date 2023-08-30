@@ -10,9 +10,9 @@ db_password=$(jq -r '.db.password' "$json_file")
 
 # Create database and set owner to database
 sudo -u postgres psql <<'ENDPSQL'
-    CREATE DATABASE $db_name;
-    CREATE USER $db_user WITH PASSWORD '$db_password';
-    GRANT ALL PRIVILEGES ON DATABASE $db_name TO $db_user;
-    ALTER DATABASE $db_name OWNER TO $db_user;
+    CREATE DATABASE '$db_name';
+    CREATE USER '$db_user' WITH PASSWORD '$db_password';
+    GRANT ALL PRIVILEGES ON DATABASE '$db_name' TO '$db_user';
+    ALTER DATABASE '$db_name' OWNER TO '$db_user';
     \q
 ENDPSQL
