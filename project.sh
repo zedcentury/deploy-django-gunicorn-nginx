@@ -13,7 +13,7 @@ allowed_hosts=$(jq -r '.project.env.ALLOWED_HOSTS' "$json_file")
 url=$(jq -r '.project.env.URL' "$json_file")
 
 db_name=$(jq -r '.db.name' "$json_file")
-db_user=$(jq '.db.user' "$json_file")
+db_user=$(jq -r '.db.user' "$json_file")
 db_password=$(jq -r '.db.password' "$json_file")
 
 # Enter to /var/www/
