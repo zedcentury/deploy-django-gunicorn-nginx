@@ -73,7 +73,7 @@ server {
 }
 EOF
 
-ln -s /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/
+ln -sF /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/
 
 nginx -t
 
