@@ -14,11 +14,3 @@ sudo -u postgres psql -c "CREATE DATABASE $db_name;"
 sudo -u postgres psql -c "CREATE USER $db_user WITH PASSWORD '$db_password';"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE $db_name TO $db_user;"
 sudo -u postgres psql -c "ALTER DATABASE $db_name OWNER TO $db_user;"
-
-#sudo -u postgres psql <<ENDPSQL
-#    CREATE DATABASE "$db_name";
-#    CREATE USER "$db_user" WITH PASSWORD "$db_password";
-#    GRANT ALL PRIVILEGES ON DATABASE "$db_name" TO "$db_user";
-#    ALTER DATABASE "$db_name" OWNER TO "$db_user";
-#    \q
-#ENDPSQL
