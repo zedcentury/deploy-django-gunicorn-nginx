@@ -6,6 +6,7 @@ json_file="data.json"
 # Parse JSON using jq
 filename=$(jq -r '.configuration.filename' "$json_file")
 server_name=$(jq -r '.configuration.server_name' "$json_file")
+project=$(jq -r '.project.name' "$json_file")
 
 # Back to main
 cd
@@ -32,8 +33,8 @@ After=network.target
 [Service]
 User=root
 Group=www-data
-WorkingDirectory=/var/www/${filename}
-ExecStart=/var/www/${filename}/venv/bin/gunicorn \
+WorkingDirectory=/var/www/${project}
+ExecStart=/var/www/${project}/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
           --bind unix:/run/${filename}.sock \
@@ -56,14 +57,14 @@ systemctl daemon-reload
 systemctl restart $filename
 
 # Configure Nginx to Proxy Pass to Gunicorn
-cat <<EOF >"/etc/nginx/sites-available/${filename}"
+cat <<EOF >"/etc/nginx/sites-enabled/${filename}"
 server {
     listen 80;
     server_name $server_name;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        root /var/www/$filename;
+        root /var/www/$project;
     }
 
     location / {
@@ -73,7 +74,7 @@ server {
 }
 EOF
 
-ln -sF /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/
+#ln -sF /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/
 
 nginx -t
 
