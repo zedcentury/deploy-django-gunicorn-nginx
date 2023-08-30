@@ -1,0 +1,21 @@
+{
+  "db": {
+    "name": "onlineEdu",
+    "user": "online_edu_user",
+    "password": "12345678"
+  },
+  "project": {
+    "repository": "git@github.com:abcd/onlineEdu.git",
+    "name": "onlineEdu",
+    "env": {
+      "DEBUG": true,
+      "SECRET_KEY": "87654321",
+      "ALLOWED_HOSTS": "onlineEdu.uz",
+      "URL": "0.0.0.0:8000"
+    }
+  },
+  "configuration": {
+    "filename": "onlineEdu",
+    "server_name": "onlineEdu.uz"
+  }
+}
