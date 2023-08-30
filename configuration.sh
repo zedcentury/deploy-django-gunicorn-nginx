@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# JSON file path
+json_file="data.json"
+
 # Parse JSON using jq
 filename=$(jq -r '.configuration.filename' "$json_file")
 server_name=$(jq -r '.configuration.server_name' "$json_file")
