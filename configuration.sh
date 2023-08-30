@@ -14,7 +14,7 @@ cd
 # Configure socket file
 cat <<EOF >"/etc/systemd/system/${filename}.socket"
 [Unit]
-Description=$filename socket
+Description=$project socket
 
 [Socket]
 ListenStream=/run/${filename}.sock
@@ -26,7 +26,7 @@ EOF
 # Configure service file
 cat <<EOF >"/etc/systemd/system/${filename}.service"
 [Unit]
-Description=$filename daemon
+Description=$project daemon
 Requires=${filename}.socket
 After=network.target
 
