@@ -10,7 +10,8 @@ db_password=$(jq -r '.db.password' "$json_file")
 
 # Create database and set owner to database
 # Run psql command to create a database
-sudo -u postgres psql -c "CREATE DATABASE $db_name;"
+sudo -u postgres psql -c "CREATE DATABASE '$db_name';"
+sudo -u postgres psql -c "CREATE USER '$db_user' WITH PASSWORD '$db_password';"
 
 #sudo -u postgres psql <<ENDPSQL
 #    CREATE DATABASE "$db_name";
