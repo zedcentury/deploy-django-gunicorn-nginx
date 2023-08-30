@@ -34,11 +34,7 @@ After=network.target
 User=root
 Group=www-data
 WorkingDirectory=/var/www/${project}
-ExecStart=/var/www/${project}/venv/bin/gunicorn \
-          --access-logfile - \
-          --workers 3 \
-          --bind unix:/run/${filename}.sock \
-          config.wsgi:application
+ExecStart=/var/www/${project}/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/${filename}.sock config.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
