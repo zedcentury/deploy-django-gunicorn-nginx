@@ -20,7 +20,7 @@ db_password=$(jq -r '.db.password' "$json_file")
 cd /var/www/
 
 # Clone repository
-git clone $repository
+git clone $repository $project
 
 cd $project
 
