@@ -3,24 +3,33 @@
 # JSON file path
 json_file="data.json"
 
-# Parse JSON using jq
-repository=$(jq -r '.project.repository' "$json_file")
-project=$(jq -r '.project.name' "$json_file")
+# Parse repository name
+repository=$(jq -r '.repository' "$json_file")
 
-debug=$(jq -r '.project.env.DEBUG' "$json_file")
-secret_key=$(jq -r '.project.env.SECRET_KEY' "$json_file")
-allowed_hosts=$(jq -r '.project.env.ALLOWED_HOSTS' "$json_file")
-url=$(jq -r '.project.env.URL' "$json_file")
+# Get project name from repository name
+project=$(basename "$repository" .git)
 
-db_name=$(jq -r '.db.name' "$json_file")
-db_user=$(jq -r '.db.user' "$json_file")
-db_password=$(jq -r '.db.password' "$json_file")
+# env variables
+debug=$(jq -r '.env.DEBUG' "$json_file")
+secret_key=$(jq -r '.env.SECRET_KEY' "$json_file")
+allowed_hosts=$(jq -r '.url' "$json_file")
+url=$(jq -r '.env.URL' "$json_file")
+
+# Set database name and replace - and . to _
+db_name=$(echo "$project" | tr '-' '_')
+db_name=$(echo "$db_name" | tr '.' '_')
+
+# Set database user
+db_user="${db_name}_user"
+
+# Parse password of user
+db_password=$(jq -r '.db_password' "$json_file")
 
 # Enter to /var/www/
 cd /var/www/
 
 # Clone repository
-git clone $repository $project
+git clone $repository
 
 # Enter to project
 cd $project

@@ -4,7 +4,6 @@
   "env": {
     "DEBUG": true,
     "SECRET_KEY": "1ho1h0saw22we2ej[qks[kshs01sh1sjpjs0su02qu0dg9",
-    "ALLOWED_HOSTS": "example.lurny.co",
     "URL": "0.0.0.0:8005"
   },
   "url": "example.lurny.co"
