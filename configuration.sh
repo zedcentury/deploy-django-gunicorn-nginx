@@ -3,57 +3,61 @@
 # JSON file path
 json_file="data.json"
 
-# Parse JSON using jq
-filename=$(jq -r '.configuration.filename' "$json_file")
-server_name=$(jq -r '.configuration.server_name' "$json_file")
-project=$(jq -r '.project.name' "$json_file")
+# Parse repository name
+repository=$(jq -r '.repository' "$json_file")
+
+# Get project name from repository name
+project=$(basename "$repository" .git)
+
+# Server name
+server_name=$(jq -r '.url' "$json_file")
 
 # Back to main
 cd
 
 # Configure socket file
-cat <<EOF >"/etc/systemd/system/${filename}.socket"
+cat <<EOF >"/etc/systemd/system/${project}.socket"
 [Unit]
 Description=$project socket
 
 [Socket]
-ListenStream=/run/${filename}.sock
+ListenStream=/run/${project}.sock
 
 [Install]
 WantedBy=sockets.target
 EOF
 
 # Configure service file
-cat <<EOF >"/etc/systemd/system/${filename}.service"
+cat <<EOF >"/etc/systemd/system/${project}.service"
 [Unit]
 Description=$project daemon
-Requires=${filename}.socket
+Requires=${project}.socket
 After=network.target
 
 [Service]
 User=root
 Group=www-data
 WorkingDirectory=/var/www/${project}
-ExecStart=/var/www/${project}/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/${filename}.sock config.wsgi:application
+ExecStart=/var/www/${project}/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/${project}.sock config.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
 # Start socket file
-systemctl start ${filename}.socket
+systemctl start ${project}.socket
 
 # Enable socket file
-systemctl enable ${filename}.socket
+systemctl enable ${project}.socket
 
 # Reload systemd manager configuration
 systemctl daemon-reload
 
 # Restart service
-systemctl restart $filename
+systemctl restart $project
 
 # Configure Nginx to Proxy Pass to Gunicorn
-cat <<EOF >"/etc/nginx/sites-enabled/${filename}"
+cat <<EOF >"/etc/nginx/sites-enabled/${project}"
 server {
     listen 80;
     server_name $server_name;
@@ -65,12 +69,12 @@ server {
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/run/${filename}.sock;
+        proxy_pass http://unix:/run/${project}.sock;
     }
 }
 EOF
 
-#ln -sF /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/
+#ln -sF /etc/nginx/sites-available/$project /etc/nginx/sites-enabled/
 
 nginx -t
 
