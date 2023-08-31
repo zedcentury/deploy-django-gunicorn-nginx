@@ -22,6 +22,7 @@ cd /var/www/
 # Clone repository
 git clone $repository $project
 
+# Enter to project
 cd $project
 
 # Create virtual environment
