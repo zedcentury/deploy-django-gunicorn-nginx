@@ -1,10 +1,10 @@
 {
-  "repository": "git@github.com:Asliddin750750/example-project.git",
+  "repository": "git@github.com:Asliddin750750/example-django-project.git",
   "db_password": "1ho1h0saw22we2ejsasakshkahkshash2hoahosha",
   "env": {
     "DEBUG": true,
     "SECRET_KEY": "1ho1h0saw22we2ej[qks[kshs01sh1sjpjs0su02qu0dg9",
     "URL": "0.0.0.0:8005"
   },
-  "url": "example.lurny.co"
+  "url": "example-django.lurny.co"
 }
