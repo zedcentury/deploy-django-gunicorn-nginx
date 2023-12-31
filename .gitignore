@@ -2,3 +2,4 @@
 .idea
 deploy.sh
 venv
+*.sh
